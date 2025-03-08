@@ -1,0 +1,25 @@
+{
+  "grammars": [
+    {
+      "name": "miniscript",
+      "path": ".",
+      "scope": "source.ms",
+      "file-types": [
+        "ms"
+      ],
+      "injection-regex": "^ms$",
+      "highlights": "queries/highlights.scm",
+      "injections": "queries/injections.scm",
+      "locals": "queries/locals.scm",
+      "tags": "queries/tags.scm"
+    }
+  ],
+  "metadata": {
+    "version": "0.3.0",
+    "license": "MIT",
+    "authors": [],
+    "links": {
+      "repository": "https://github.com/ayecue/tree-sitter-miniscript"
+    }
+  }
+}
