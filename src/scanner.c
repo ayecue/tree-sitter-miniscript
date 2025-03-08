@@ -20,3 +20,10 @@ bool tree_sitter_miniscript_external_scanner_scan(
 {
   return true;
 }
+
+unsigned tree_sitter_miniscript_external_scanner_serialize(
+    void *payload,
+    char *buffer)
+{
+  return 0;
+}
