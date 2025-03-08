@@ -27,3 +27,10 @@ unsigned tree_sitter_miniscript_external_scanner_serialize(
 {
   return 0;
 }
+
+void tree_sitter_miniscript_external_scanner_deserialize(
+    void *payload,
+    const char *buffer,
+    unsigned length)
+{
+}
