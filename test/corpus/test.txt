@@ -1,0 +1,13 @@
+=====
+Test name
+=====
+
+test body
+
+---
+
+(chunk
+      (function_statement_call
+        (identifier)
+        (statement_arguments
+          (identifier))))

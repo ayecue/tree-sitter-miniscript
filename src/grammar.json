@@ -123,12 +123,18 @@
       ]
     },
     "break_statement": {
-      "type": "STRING",
-      "value": "break"
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "break"
+      }
     },
     "continue_statement": {
-      "type": "STRING",
-      "value": "continue"
+      "type": "TOKEN",
+      "content": {
+        "type": "STRING",
+        "value": "continue"
+      }
     },
     "while_statement": {
       "type": "SEQ",
@@ -153,12 +159,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "end"
-        },
-        {
-          "type": "STRING",
-          "value": "while"
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "end while"
+          }
         }
       ]
     },
@@ -322,12 +327,11 @@
           ]
         },
         {
-          "type": "STRING",
-          "value": "end"
-        },
-        {
-          "type": "STRING",
-          "value": "if"
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "end if"
+          }
         }
       ]
     },
@@ -335,8 +339,11 @@
       "type": "SEQ",
       "members": [
         {
-          "type": "STRING",
-          "value": "else if"
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "else if"
+          }
         },
         {
           "type": "FIELD",
@@ -410,12 +417,11 @@
           }
         },
         {
-          "type": "STRING",
-          "value": "end"
-        },
-        {
-          "type": "STRING",
-          "value": "for"
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "end for"
+          }
         }
       ]
     },

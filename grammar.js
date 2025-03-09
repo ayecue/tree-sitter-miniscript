@@ -69,7 +69,11 @@ module.exports = grammar({
 
   extras: ($) => [$.comment, /\s/],
 
-  supertypes: ($) => [$.statement, $.expression, $.variable],
+  supertypes: ($) => [
+    $.statement,
+    $.expression,
+    $.variable
+  ],
 
   word: ($) => $.identifier,
 
@@ -111,16 +115,15 @@ module.exports = grammar({
         field('right', choice($.expression, $.function_definition))
       ),
 
-    break_statement: (_) => 'break',
-    continue_statement: (_) => 'continue',
+    break_statement: (_) => token('break'),
+    continue_statement: (_) => token('continue'),
 
     while_statement: ($) =>
       seq(
         'while',
         field('condition', $.expression),
         repeat($.statement),
-        'end',
-        'while'
+        token('end while')
       ),
 
     if_statement_shorthand: ($) =>
@@ -148,12 +151,11 @@ module.exports = grammar({
         field('consequence', repeat($.statement)),
         repeat(field('alternative', $.elseif_statement)),
         optional(field('alternative', $.else_statement)),
-        'end',
-        'if'
+        token('end if')
       ),
     elseif_statement: ($) =>
       seq(
-        'else if',
+        token('else if'),
         field('condition', $.expression),
         'then',
         field('consequence', repeat($.statement))
@@ -165,8 +167,7 @@ module.exports = grammar({
         'for',
         field('clause', $.for_generic_clause),
         field('body', repeat($.statement)),
-        'end',
-        'for'
+        token('end for')
       ),
     for_generic_clause: ($) =>
       seq(

@@ -1040,11 +1040,19 @@
     "named": false
   },
   {
-    "type": "end",
+    "type": "end for",
     "named": false
   },
   {
     "type": "end function",
+    "named": false
+  },
+  {
+    "type": "end if",
+    "named": false
+  },
+  {
+    "type": "end while",
     "named": false
   },
   {
