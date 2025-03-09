@@ -39,6 +39,12 @@
 (variable
   name: (identifier) @variable)
 
+(variable
+  name: (dot_index_expression) @variable.property)
+
+(variable
+  name: (bracket_index_expression) @variable.property)
+
 ; Literals
 (number) @number
 (string) @string
@@ -46,11 +52,24 @@
 ; Comments
 (comment) @comment
 
+; Function calls
+;--------------------------
+
+(function_call
+  name: (identifier) @function)
+
+(function_call
+  name: (dot_index_expression) @function.method)
+
+(function_call
+  name: (bracket_index_expression) @function.method)
+
 ; Tokens
 ;-------
 
 [
   "."
+  ":"
 ] @punctuation.delimiter
 
 [
