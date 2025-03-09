@@ -1088,6 +1088,10 @@
     "named": false
   },
   {
+    "type": "new",
+    "named": false
+  },
+  {
     "type": "not",
     "named": false
   },

@@ -371,7 +371,7 @@ module.exports = grammar({
     unary_expression: ($) =>
       prec.left(
         PREC.UNARY,
-        seq(choice('not', '@', '-', '+'), field('operand', $.expression))
+        seq(choice('not', '@', '-', '+', 'new'), field('operand', $.expression))
       ),
 
     identifier: (_) => {

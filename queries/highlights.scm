@@ -17,6 +17,7 @@
   "or"
   "and"
   "isa"
+  "new"
 ] @keyword
 
 ; Constants

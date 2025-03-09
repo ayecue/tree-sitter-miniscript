@@ -18,6 +18,23 @@ static inline void skip_whitespaces(TSLexer *lexer)
   }
 }
 
+static inline bool is_assignment(TSLexer *lexer)
+{
+  switch (lexer->lookahead)
+  {
+  case '+':
+  case '-':
+  case '*':
+  case '/':
+  case '%':
+    lexer->advance(lexer, false);
+    return lexer->lookahead == '=';
+  default:
+    break;
+  }
+  return lexer->lookahead == '=';
+}
+
 void tree_sitter_miniscript_external_scanner_create()
 {
 }
@@ -42,12 +59,12 @@ bool tree_sitter_miniscript_external_scanner_scan(
       return false;
     }
 
-    if (has_leading_whitespace && lexer->lookahead != '=' && valid_symbols[COMMAND])
+    if (has_leading_whitespace && !is_assignment(lexer) && valid_symbols[COMMAND])
     {
       lexer->result_symbol = COMMAND;
       return true;
     }
-    else if (lexer->lookahead == '=' && valid_symbols[ASSIGNMENT])
+    else if (is_assignment(lexer) && valid_symbols[ASSIGNMENT])
     {
       lexer->advance(lexer, false);
       lexer->result_symbol = ASSIGNMENT;
