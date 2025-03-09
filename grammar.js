@@ -64,7 +64,8 @@ module.exports = grammar({
     [$.return_statement],
     [$.function_call, $.function_statement_call],
     [$.expression, $.literal],
-    [$.function_statement_call, $.slice_expression, $.bracket_index_expression]
+    [$.function_statement_call, $.slice_expression, $.bracket_index_expression],
+    [$.statement, $.if_statement_shorthand]
   ],
 
   extras: ($) => [$.comment, /\s/],
@@ -95,6 +96,7 @@ module.exports = grammar({
         $.if_statement_shorthand,
         $.if_statement,
         $.for_statement,
+        $.return_statement,
         $.assignment_statement,
         $.function_statement_call,
       ),

@@ -43,6 +43,10 @@
         },
         {
           "type": "SYMBOL",
+          "name": "return_statement"
+        },
+        {
+          "type": "SYMBOL",
           "name": "assignment_statement"
         },
         {
@@ -2005,6 +2009,10 @@
       "function_statement_call",
       "slice_expression",
       "bracket_index_expression"
+    ],
+    [
+      "statement",
+      "if_statement_shorthand"
     ]
   ],
   "precedences": [
