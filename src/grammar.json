@@ -30,7 +30,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "_expression_statement"
+          "name": "expression_statement"
         },
         {
           "type": "SYMBOL",
@@ -659,7 +659,7 @@
         }
       ]
     },
-    "_expression_statement": {
+    "expression_statement": {
       "type": "SEQ",
       "members": [
         {

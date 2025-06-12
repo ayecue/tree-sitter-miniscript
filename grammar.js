@@ -52,7 +52,7 @@ module.exports = grammar({
       choice(
         $._control_flow_statement_shorthand,
         $._control_flow_statement,
-        $._expression_statement,
+        $.expression_statement,
         $._eos
       ),
     
@@ -193,7 +193,7 @@ module.exports = grammar({
       ),
     
     // Control flow statement expression
-    _expression_statement: ($) =>
+    expression_statement: ($) =>
       seq(
         choice(
           $.literal,
