@@ -182,8 +182,11 @@ module.exports = grammar({
       ),
     _if_consequence: ($) =>
       choice(
-        $.assignment_statement,
+        $.break_statement,
+        $.continue_statement,
         $.return_statement,
+        $.assignment_statement,
+        $.function_statement_call,
         $.expression
       ),
     
