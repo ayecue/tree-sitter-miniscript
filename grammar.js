@@ -169,16 +169,22 @@ module.exports = grammar({
           token('if'),
           field('condition', $.expression),
           token('then'),
-          field('consequence', choice($.expression, $.return_statement)),
+          field('consequence', $._if_consequence),
         ),
         seq(
           token('if'),
           field('condition', $.expression),
           token('then'),
-          field('consequence', choice($.expression, $.return_statement)),
+          field('consequence', $._if_consequence),
           token('else'),
-          field('alternative', choice($.expression, $.return_statement))
+          field('consequence', $._if_consequence)
         ),
+      ),
+    _if_consequence: ($) =>
+      choice(
+        $.assignment_statement,
+        $.return_statement,
+        $.expression
       ),
     
     // Control flow statement expression

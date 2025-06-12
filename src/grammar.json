@@ -568,17 +568,8 @@
               "type": "FIELD",
               "name": "consequence",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "expression"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "return_statement"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_if_consequence"
               }
             }
           ]
@@ -612,17 +603,8 @@
               "type": "FIELD",
               "name": "consequence",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "expression"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "return_statement"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_if_consequence"
               }
             },
             {
@@ -634,22 +616,30 @@
             },
             {
               "type": "FIELD",
-              "name": "alternative",
+              "name": "consequence",
               "content": {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SYMBOL",
-                    "name": "expression"
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "return_statement"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "_if_consequence"
               }
             }
           ]
+        }
+      ]
+    },
+    "_if_consequence": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "assignment_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "return_statement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "expression"
         }
       ]
     },
