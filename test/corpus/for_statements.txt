@@ -1,0 +1,87 @@
+=====
+For statements
+=====
+
+for test in range(1,2)
+end for
+
+for test in [1,2,3]
+end for
+
+---
+
+(chunk
+  (for_statement
+    variable: (identifier)
+    iterable: (expression
+      (function_call
+        name: (variable
+          (identifier))
+        arguments: (expression
+          (literal
+            (number)))
+        arguments: (expression
+          (literal
+            (number))))))
+  (for_statement
+    variable: (identifier)
+    iterable: (expression
+      (list_constructor
+        (expression
+          (literal
+            (number)))
+        (expression
+          (literal
+            (number)))
+        (expression
+          (literal
+            (number)))))))
+
+=====
+For statements with body
+=====
+
+for test in range(1,2)
+	print
+end for
+
+for test in [1,2,3]
+	print
+end for
+
+---
+
+(chunk
+  (for_statement
+    variable: (identifier)
+    iterable: (expression
+      (function_call
+        name: (variable
+          (identifier))
+        arguments: (expression
+          (literal
+            (number)))
+        arguments: (expression
+          (literal
+            (number)))))
+    body: (block
+      (function_statement_call
+        name: (variable
+          (identifier)))))
+  (for_statement
+    variable: (identifier)
+    iterable: (expression
+      (list_constructor
+        (expression
+          (literal
+            (number)))
+        (expression
+          (literal
+            (number)))
+        (expression
+          (literal
+            (number)))))
+    body: (block
+      (function_statement_call
+        name: (variable
+          (identifier))))))

@@ -1,0 +1,26 @@
+=====
+While statements
+=====
+
+while true
+end while
+
+while true
+	print
+end while
+
+---
+
+(chunk
+  (while_statement
+    condition: (expression
+      (literal
+        (true))))
+  (while_statement
+    condition: (expression
+      (literal
+        (true)))
+    body: (block
+      (function_statement_call
+        name: (variable
+          (identifier))))))

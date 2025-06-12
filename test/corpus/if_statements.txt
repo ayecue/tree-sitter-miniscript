@@ -1,0 +1,176 @@
+=====
+If statements
+=====
+
+if true then
+end if
+if true then
+else
+end if
+if true then
+else if true then
+end if
+if true then
+else if true then
+else
+end if
+if true then
+else if true then
+else if false then
+end if
+
+---
+
+(chunk
+  (if_statement
+    condition: (expression
+      (literal
+        (true))))
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    alternative: (else_statement))
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    alternative: (elseif_statement
+      condition: (expression
+        (literal
+          (true)))))
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    alternative: (elseif_statement
+      condition: (expression
+        (literal
+          (true))))
+    alternative: (else_statement))
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    alternative: (elseif_statement
+      condition: (expression
+        (literal
+          (true))))
+    alternative: (elseif_statement
+      condition: (expression
+        (literal
+          (false))))))
+
+
+=====
+If statements with body
+=====
+
+if true then
+	print
+end if
+if true then
+	print
+else
+end if
+if true then
+	print
+else if true then
+	print
+end if
+if true then
+	print
+else if true then
+	print
+else
+	print
+end if
+if true then
+	print
+else if true then
+	print
+else if false then
+	print
+end if
+
+---
+
+(chunk
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    body: (block
+      (function_statement_call
+        name: (variable
+          (identifier)))))
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    body: (block
+      (function_statement_call
+        name: (variable
+          (identifier))))
+    alternative: (else_statement))
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    body: (block
+      (function_statement_call
+        name: (variable
+          (identifier))))
+    alternative: (elseif_statement
+      condition: (expression
+        (literal
+          (true)))
+      body: (block
+        (function_statement_call
+          name: (variable
+            (identifier))))))
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    body: (block
+      (function_statement_call
+        name: (variable
+          (identifier))))
+    alternative: (elseif_statement
+      condition: (expression
+        (literal
+          (true)))
+      body: (block
+        (function_statement_call
+          name: (variable
+            (identifier)))))
+    alternative: (else_statement
+      body: (block
+        (function_statement_call
+          name: (variable
+            (identifier))))))
+  (if_statement
+    condition: (expression
+      (literal
+        (true)))
+    body: (block
+      (function_statement_call
+        name: (variable
+          (identifier))))
+    alternative: (elseif_statement
+      condition: (expression
+        (literal
+          (true)))
+      body: (block
+        (function_statement_call
+          name: (variable
+            (identifier)))))
+    alternative: (elseif_statement
+      condition: (expression
+        (literal
+          (false)))
+      body: (block
+        (function_statement_call
+          name: (variable
+            (identifier)))))))

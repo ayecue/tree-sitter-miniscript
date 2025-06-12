@@ -1,0 +1,242 @@
+=====
+Assignment statements
+=====
+
+test = 123
+test += 123
+test -= 123
+test /= 123
+test *= 123
+test %= 123
+
+---
+
+(chunk
+  (assignment_statement
+    left: (expression
+      (variable
+        (identifier)))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (identifier)))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (identifier)))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (identifier)))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (identifier)))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (identifier)))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number)))))
+
+=====
+Assignment statements with dot expressions
+=====
+
+test.foo = 123
+test.foo += 123
+test.foo -= 123
+test.foo /= 123
+test.foo *= 123
+test.foo %= 123
+
+---
+
+(chunk
+  (assignment_statement
+    left: (expression
+      (variable
+        (dot_index_expression
+          entity: (variable
+            (identifier))
+          property: (identifier))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (dot_index_expression
+          entity: (variable
+            (identifier))
+          property: (identifier))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (dot_index_expression
+          entity: (variable
+            (identifier))
+          property: (identifier))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (dot_index_expression
+          entity: (variable
+            (identifier))
+          property: (identifier))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (dot_index_expression
+          entity: (variable
+            (identifier))
+          property: (identifier))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (dot_index_expression
+          entity: (variable
+            (identifier))
+          property: (identifier))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number)))))
+
+=====
+Assignment statements with bracket expressions
+=====
+
+test["foo"] = 123
+test["foo"] += 123
+test["foo"] -= 123
+test["foo"] /= 123
+test["foo"] *= 123
+test["foo"] %= 123
+
+---
+
+(chunk
+  (assignment_statement
+    left: (expression
+      (variable
+        (bracket_index_expression
+          entity: (variable
+            (identifier))
+          property: (expression
+            (literal
+              (string
+                content: (string_content)))))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (bracket_index_expression
+          entity: (variable
+            (identifier))
+          property: (expression
+            (literal
+              (string
+                content: (string_content)))))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (bracket_index_expression
+          entity: (variable
+            (identifier))
+          property: (expression
+            (literal
+              (string
+                content: (string_content)))))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (bracket_index_expression
+          entity: (variable
+            (identifier))
+          property: (expression
+            (literal
+              (string
+                content: (string_content)))))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (bracket_index_expression
+          entity: (variable
+            (identifier))
+          property: (expression
+            (literal
+              (string
+                content: (string_content)))))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number))))
+  (assignment_statement
+    left: (expression
+      (variable
+        (bracket_index_expression
+          entity: (variable
+            (identifier))
+          property: (expression
+            (literal
+              (string
+                content: (string_content)))))))
+    operator: (assignment_operator)
+    right: (expression
+      (literal
+        (number)))))
