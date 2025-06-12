@@ -1,0 +1,149 @@
+=====
+Function call statements
+=====
+
+print "hello"
+print -123
+print [123] + [123], "foo"
+
+---
+
+(chunk
+  (function_statement_call
+    name: (variable
+      (identifier))
+    arguments: (expression
+      (literal
+        (string
+          content: (string_content)))))
+  (function_statement_call
+    name: (variable
+      (identifier))
+    arguments: (expression
+      (literal
+        (number))))
+  (function_statement_call
+    name: (variable
+      (identifier))
+    arguments: (expression
+      (binary_expression
+        left: (expression
+          (list_constructor
+            (expression
+              (literal
+                (number)))))
+        right: (expression
+          (list_constructor
+            (expression
+              (literal
+                (number)))))))
+    arguments: (expression
+      (literal
+        (string
+          content: (string_content))))))
+
+=====
+Function call statements with dot expressions
+=====
+
+obj.print "hello"
+obj.print -123
+obj.print [123] + [123], "foo"
+
+---
+
+(chunk
+  (function_statement_call
+    name: (variable
+      (dot_index_expression
+        entity: (variable
+          (identifier))
+        property: (identifier)))
+    arguments: (expression
+      (literal
+        (string
+          content: (string_content)))))
+  (function_statement_call
+    name: (variable
+      (dot_index_expression
+        entity: (variable
+          (identifier))
+        property: (identifier)))
+    arguments: (expression
+      (literal
+        (number))))
+  (function_statement_call
+    name: (variable
+      (dot_index_expression
+        entity: (variable
+          (identifier))
+        property: (identifier)))
+    arguments: (expression
+      (binary_expression
+        left: (expression
+          (list_constructor
+            (expression
+              (literal
+                (number)))))
+        right: (expression
+          (list_constructor
+            (expression
+              (literal
+                (number)))))))
+    arguments: (expression
+      (literal
+        (string
+          content: (string_content))))))
+
+=====
+Function call statements with index expressions
+=====
+
+obj.print "hello"
+obj.print -123
+obj.print [123] + [123], "foo"
+
+---
+
+(chunk
+  (function_statement_call
+    name: (variable
+      (dot_index_expression
+        entity: (variable
+          (identifier))
+        property: (identifier)))
+    arguments: (expression
+      (literal
+        (string
+          content: (string_content)))))
+  (function_statement_call
+    name: (variable
+      (dot_index_expression
+        entity: (variable
+          (identifier))
+        property: (identifier)))
+    arguments: (expression
+      (literal
+        (number))))
+  (function_statement_call
+    name: (variable
+      (dot_index_expression
+        entity: (variable
+          (identifier))
+        property: (identifier)))
+    arguments: (expression
+      (binary_expression
+        left: (expression
+          (list_constructor
+            (expression
+              (literal
+                (number)))))
+        right: (expression
+          (list_constructor
+            (expression
+              (literal
+                (number)))))))
+    arguments: (expression
+      (literal
+        (string
+          content: (string_content))))))
