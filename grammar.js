@@ -411,9 +411,9 @@ module.exports = grammar({
     // Identifier pattern
     identifier: (_) => {
       const identifier_start =
-        /[^\p{Control}\s+\-*/%^#&~|<>=(){}\[\];:,.\\'"\d]/;
+        /[^\p{Control}\s+\-*/%^#&~|<>=(){}\[\];:,.\\'"\d@]/;
       const identifier_continue =
-        /[^\p{Control}\s+\-*/%^#&~|<>=(){}\[\];:,.\\'"]*/;
+        /[^\p{Control}\s+\-*/%^#&~|<>=(){}\[\];:,.\\'"@]*/;
       return token(seq(identifier_start, identifier_continue));
     },
 
