@@ -181,7 +181,7 @@
           "name": "left",
           "content": {
             "type": "SYMBOL",
-            "name": "variable"
+            "name": "expression"
           }
         },
         {

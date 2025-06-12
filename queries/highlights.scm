@@ -23,6 +23,10 @@
 ; Assignments
 (assignment_operator) @punctuation.assignment
 
+; For Iterator
+(for_statement 
+  variable: (identifier) @variable)
+
 ; Constants
 [
   (null)

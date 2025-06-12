@@ -8,7 +8,7 @@
         "required": true,
         "types": [
           {
-            "type": "variable",
+            "type": "expression",
             "named": true
           }
         ]
