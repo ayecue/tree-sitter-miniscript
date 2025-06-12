@@ -29,128 +29,89 @@ const name_list = ($) => list_seq(choice(
 module.exports = grammar({
   name: 'miniscript',
 
-  precedences: ($) => [
-    [$.arguments, $.statement_arguments],
-    [
-      $.empty_statement,
-      $.break_statement,
-      $.continue_statement,
-      $.while_statement,
-      $.if_statement_shorthand,
-      $.if_statement,
-      $.for_statement,
-      $.assignment_statement
-    ],
-    [
-      $.null,
-      $.false,
-      $.true,
-      $.number,
-      $.string,
-      $.function_definition,
-      $.variable,
-      $.function_call,
-      $.parenthesized_expression,
-      $.map_constructor,
-      $.list_constructor,
-      $.binary_expression,
-      $.unary_expression
-    ]
-  ],
-
-  conflicts: ($) => [
-    [$.if_statement_shorthand],
-    [$._parameter_list, $.variable],
-    [$.return_statement],
-    [$.function_call, $.function_statement_call],
-    [$.expression, $.literal],
-    [$.function_statement_call, $.slice_expression, $.bracket_index_expression],
-    [$.statement, $.if_statement_shorthand]
-  ],
-
-  extras: ($) => [$.comment, /\s/],
-
-  supertypes: ($) => [
-    $.statement,
-    $.expression,
-    $.variable
-  ],
+  extras: ($) => [$.comment, /\s/, /\t/, /\r/, /\f/],
 
   word: ($) => $.identifier,
 
   externals: $ => [
     $._command,
-    $._assignment
+    $._assignment,
+    $._eof
   ],
 
   rules: {
     chunk: ($) =>
-      repeat($.statement),
+      repeat($._statement),
 
-    statement: ($) =>
+    block: ($) =>
+      repeat1($._statement),
+
+    _statement: ($) =>
       choice(
-        $.empty_statement,
-        $.break_statement,
-        $.continue_statement,
-        $.while_statement,
-        $.if_statement_shorthand,
-        $.if_statement,
-        $.for_statement,
-        $.return_statement,
-        $.assignment_statement,
-        $.function_statement_call,
+        $._control_flow_statement_shorthand,
+        $._control_flow_statement,
+        $._expression_statement,
+        $._eos
+      ),
+    
+    // Control flow statements
+    _control_flow_statement: ($) => 
+      seq(
+        choice(
+          $.break_statement,
+          $.continue_statement,
+          $.while_statement,
+          $.if_statement,
+          $.for_statement,
+          $.return_statement,
+          $.assignment_statement,
+          $.function_statement_call
+        ),
+        $._end_of_statement
       ),
 
     return_statement: ($) =>
-      seq(
-        'return',
-        optional($.expression),
-        optional(';')
+      prec.left(
+        0,
+        seq(
+          token('return'),
+          optional($.expression)
+        )
       ),
+    
+    break_statement: (_) => token('break'),
+    continue_statement: (_) => token('continue'),
 
-    empty_statement: (_) => ';',
-
+    while_statement: ($) =>
+      seq(
+        token('while'),
+        field('condition', $.expression),
+        $._end_of_statement,
+        field('body', optional($.block)),
+        token('end while')
+      ),
+    
     assignment_statement: ($) =>
       seq(
         field('left', $.variable),
         $._assignment,
         field('right', choice($.expression, $.function_definition))
       ),
-
-    break_statement: (_) => token('break'),
-    continue_statement: (_) => token('continue'),
-
-    while_statement: ($) =>
-      seq(
-        'while',
-        field('condition', $.expression),
-        repeat($.statement),
-        token('end while')
+    
+    _end_of_statement: ($) =>
+        choice(
+          $._eol,
+          $._eos,
+          $._eof
       ),
-
-    if_statement_shorthand: ($) =>
-      choice(
-        seq(
-          'if',
-          field('condition', $.expression),
-          'then',
-          field('consequence', choice($.expression, $.return_statement))
-        ),
-        seq(
-          'if',
-          field('condition', $.expression),
-          'then',
-          field('consequence', choice($.expression, $.return_statement)),
-          'else',
-          field('alternative', choice($.expression, $.return_statement))
-        ),
-      ),
+    
     if_statement: ($) =>
       seq(
-        'if',
+        token('if'),
         field('condition', $.expression),
-        'then',
-        field('consequence', repeat($.statement)),
+        token('then'),
+        $._end_of_statement,
+        field('consequence', optional($.block)),
         repeat(field('alternative', $.elseif_statement)),
         optional(field('alternative', $.else_statement)),
         token('end if')
@@ -159,46 +120,84 @@ module.exports = grammar({
       seq(
         token('else if'),
         field('condition', $.expression),
-        'then',
-        field('consequence', repeat($.statement))
+        token('then'),
+        $._end_of_statement,
+        field('consequence', optional($.block))
       ),
-    else_statement: ($) => seq('else', field('body', repeat($.statement))),
+    else_statement: ($) =>
+      seq(
+        token('else'),
+        $._end_of_statement,
+        field('body', optional($.block))
+      ),
 
     for_statement: ($) =>
       seq(
-        'for',
-        field('clause', $.for_generic_clause),
-        field('body', repeat($.statement)),
+        token('for'),
+        field('variable', $.identifier),
+        token('in'),
+        field('iterable', $.expression),
+        $._end_of_statement,
+        field('body', optional($.block)),
         token('end for')
-      ),
-    for_generic_clause: ($) =>
-      seq(
-        $.identifier,
-        'in',
-        $.expression
       ),
 
     function_statement_call: ($) =>
       choice(
         seq(
-          field('name', $._prefix_expression),
-          field('arguments', $.statement_arguments)
+          field('name', $._prefix_expression_without_function_call),
+          field('arguments', $._statement_arguments)
         ),
-        field('name', $._prefix_expression)
+        field('name', $._prefix_expression_without_function_call)
       ),
-    statement_arguments: ($) =>
+    _statement_arguments: ($) =>
       choice(
-        seq('(', optional(list_seq($.expression, ',')), ')'),
+        $._arguments_seq,
         seq($._command, list_seq($.expression, ',')),
       ),
+    
+    // Control flow statement shorthand
+    _control_flow_statement_shorthand: ($) => 
+      seq(
+        $._if_statement_shorthand,
+        $._end_of_statement
+      ),
 
+    _if_statement_shorthand: ($) =>
+      choice(
+        seq(
+          token('if'),
+          field('condition', $.expression),
+          token('then'),
+          field('consequence', choice($.expression, $.return_statement)),
+        ),
+        seq(
+          token('if'),
+          field('condition', $.expression),
+          token('then'),
+          field('consequence', choice($.expression, $.return_statement)),
+          token('else'),
+          field('alternative', choice($.expression, $.return_statement))
+        ),
+      ),
+    
+    // Control flow statement expression
+    _expression_statement: ($) =>
+      seq(
+        choice(
+          $.literal,
+          $.map_constructor,
+          $.list_constructor,
+          $.binary_expression,
+          $.unary_expression
+        ),
+        $._end_of_statement
+      ),
+
+    // Expressions
     expression: ($) =>
       choice(
-        $.null,
-        $.false,
-        $.true,
-        $.number,
-        $.string,
+        $.literal,
         $.variable,
         $.function_call,
         $.parenthesized_expression,
@@ -209,8 +208,15 @@ module.exports = grammar({
       ),
 
     literal: ($) =>
-      choice($.null, $.false, $.true, $.number, $.string),
+      choice(
+        $.null,
+        $.false,
+        $.true,
+        $.number,
+        $.string
+      ),
 
+    // Default literals
     null: (_) => 'null',
     false: (_) => 'false',
     true: (_) => 'true',
@@ -249,7 +255,7 @@ module.exports = grammar({
       return token(decimal_literal);
     },
 
-    // LiteralString
+    // String
     string: ($) => $._quote_string,
 
     _quote_string: ($) =>
@@ -263,26 +269,32 @@ module.exports = grammar({
           field('end', alias('"', '"'))
         ),
       ),
-
     _doublequote_string_content: ($) =>
-      repeat1(choice(token.immediate(prec(1, /[^"]+/)), $.escape_sequence)),
-
-    escape_sequence: () =>
+      repeat1(choice(token.immediate(prec(1, /[^"]+/)), $._escape_sequence)),
+    _escape_sequence: () =>
       token.immediate(
         '""'
       ),
 
+    // Function definition
     function_definition: ($) =>
       seq(
         token('function'),
         field('parameters', optional($.parameters)),
-        field('body', repeat($.statement)),
+        field('body', optional($.block)),
         token('end function')
       ),
     parameters: ($) => seq('(', optional($._parameter_list), ')'),
-    _parameter_list: ($) => name_list($),
+    _parameter_list: ($) => prec(1, name_list($)),
 
+    // Used for member expressions and function calls
     _prefix_expression: ($) =>
+      prec(2, choice(
+        $._prefix_expression_without_function_call,
+        $.function_call,
+      )),
+    
+    _prefix_expression_without_function_call: ($) =>
       prec(1, choice(
         $.variable,
         $.function_call,
@@ -292,6 +304,7 @@ module.exports = grammar({
         $.list_constructor,
       )),
 
+    // Includes variables, member expressions, and index expressions
     variable: ($) =>
       choice(
         $.identifier,
@@ -303,9 +316,9 @@ module.exports = grammar({
       seq(
         field('map', $._prefix_expression),
         '[',
-        field('left', $.expression),
+        field('left', optional($.expression)),
         ':',
-        field('right', $.expression),
+        field('right', optional($.expression)),
         ']'
       ),
     bracket_index_expression: ($) =>
@@ -322,25 +335,28 @@ module.exports = grammar({
         field('field', $.identifier)
       ),
 
+    // Function call expression
     function_call: ($) =>
       seq(
         field('name', $._prefix_expression),
-        field('arguments', $.arguments)
+        field('arguments', $._arguments_seq)
       ),
-    arguments: ($) =>
-      seq('(', optional(list_seq($.expression, ',')), ')'),
 
     parenthesized_expression: ($) => seq('(', $.expression, ')'),
 
+    // Map constructor expression
     map_constructor: ($) => seq('{', optional($._field_list), '}'),
     _field_list: ($) => list_seq($.field, $._field_sep, true),
     _field_sep: (_) => choice(',', ';'),
     field: ($) =>
-      seq(field('name', $.identifier), ':', field('value', $.expression)),
+      seq(field('name', $._fieldKey), ':', field('value', $.expression)),
+    _fieldKey: ($) => choice($.identifier, $.string),
 
+    // List constructor expression
     list_constructor: ($) => seq('[', optional($._expression_list), ']'),
     _expression_list: ($) => list_seq($.expression, ',', true),
 
+    // Binary expression
     binary_expression: ($) =>
       choice(
         ...[
@@ -370,12 +386,14 @@ module.exports = grammar({
         ),
       ),
 
+    // Unary expression
     unary_expression: ($) =>
       prec.left(
         PREC.UNARY,
         seq(choice('not', '@', '-', '+', 'new'), field('operand', $.expression))
       ),
 
+    // Identifier pattern
     identifier: (_) => {
       const identifier_start =
         /[^\p{Control}\s+\-*/%^#&~|<>=(){}\[\];:,.\\'"\d]/;
@@ -384,10 +402,16 @@ module.exports = grammar({
       return token(seq(identifier_start, identifier_continue));
     },
 
+    // Comment pattern
     comment: ($) =>
       seq(
         field('start', '//'),
         field('content', alias(/[^\r\n]*/, $.comment_content))
       ),
+    
+    // Internals
+    _arguments_seq: ($) => seq('(', optional(list_seq($.expression, ',')), ')'), // Arguments sequence
+    _eol: (_) => token('\n'), // end of line
+    _eos: (_) => token(';'), // end of statement
   },
 });

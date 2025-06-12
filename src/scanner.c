@@ -1,11 +1,10 @@
-#include "tree_sitter/parser.h"
-#include "tree_sitter/array.h"
-#include <wctype.h>
+#include <tree_sitter/parser.h>
 
 enum TokenType
 {
   COMMAND,
-  ASSIGNMENT
+  ASSIGNMENT,
+  EOF,
 };
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
@@ -35,27 +34,20 @@ static inline bool is_assignment(TSLexer *lexer)
   return lexer->lookahead == '=';
 }
 
-void tree_sitter_miniscript_external_scanner_create()
-{
-}
-
-void tree_sitter_miniscript_external_scanner_destroy()
-{
-}
-
-bool tree_sitter_miniscript_external_scanner_scan(
-    void *payload,
-    TSLexer *lexer,
-    const bool *valid_symbols)
-{
-  if (valid_symbols[COMMAND] || valid_symbols[ASSIGNMENT])
+static bool scan(TSLexer *lexer, const bool *valid_symbols) {
+  if (valid_symbols[COMMAND] || valid_symbols[ASSIGNMENT] || valid_symbols[EOF])
   {
     bool has_leading_whitespace = lexer->lookahead == ' ';
 
     skip_whitespaces(lexer);
 
-    if (lexer->lookahead == 0 || lexer->lookahead == NULL)
+    if (lexer->eof(lexer))
     {
+      if (valid_symbols[EOF])
+      {
+        lexer->result_symbol = EOF;
+        return true;
+      }
       return false;
     }
 
@@ -75,11 +67,10 @@ bool tree_sitter_miniscript_external_scanner_scan(
   return false;
 }
 
-unsigned tree_sitter_miniscript_external_scanner_serialize()
-{
-  return 0;
+void *tree_sitter_miniscript_external_scanner_create() { return NULL; }
+bool tree_sitter_miniscript_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
+  return scan(lexer, valid_symbols);
 }
-
-void tree_sitter_miniscript_external_scanner_deserialize()
-{
-}
+unsigned tree_sitter_miniscript_external_scanner_serialize(void *payload, char *buffer) { return 0; }
+void tree_sitter_miniscript_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {}
+void *tree_sitter_miniscript_external_scanner_destroy(void *payload) { return NULL;}
