@@ -29,13 +29,15 @@ const name_list = ($) => list_seq(choice(
 module.exports = grammar({
   name: 'miniscript',
 
-  extras: ($) => [$.comment, /\s/, /\t/, /\r/, /\f/],
+  extras: ($) => [
+    $.comment, /\s/, /\t/, /\r/, /\f/
+  ],
 
   word: ($) => $.identifier,
 
   externals: $ => [
     $._command,
-    $._assignment,
+    $.assignment_operator,
     $._eof
   ],
 
@@ -94,7 +96,7 @@ module.exports = grammar({
     assignment_statement: ($) =>
       seq(
         field('left', $.variable),
-        $._assignment,
+        field('operator', $.assignment_operator),
         field('right', choice($.expression, $.function_definition))
       ),
     
@@ -111,7 +113,7 @@ module.exports = grammar({
         field('condition', $.expression),
         token('then'),
         $._end_of_statement,
-        field('consequence', optional($.block)),
+        field('body', optional($.block)),
         repeat(field('alternative', $.elseif_statement)),
         optional(field('alternative', $.else_statement)),
         token('end if')
@@ -122,7 +124,7 @@ module.exports = grammar({
         field('condition', $.expression),
         token('then'),
         $._end_of_statement,
-        field('consequence', optional($.block))
+        field('body', optional($.block))
       ),
     else_statement: ($) =>
       seq(
@@ -159,25 +161,25 @@ module.exports = grammar({
     // Control flow statement shorthand
     _control_flow_statement_shorthand: ($) => 
       seq(
-        $._if_statement_shorthand,
+        $.if_statement_shorthand,
         $._end_of_statement
       ),
 
-    _if_statement_shorthand: ($) =>
+    if_statement_shorthand: ($) =>
       choice(
         seq(
           token('if'),
           field('condition', $.expression),
           token('then'),
-          field('consequence', $._if_consequence),
+          field('body', $._if_consequence),
         ),
         seq(
           token('if'),
           field('condition', $.expression),
           token('then'),
-          field('consequence', $._if_consequence),
+          field('body', $._if_consequence),
           token('else'),
-          field('consequence', $._if_consequence)
+          field('body', $._if_consequence)
         ),
       ),
     _if_consequence: ($) =>
@@ -321,27 +323,34 @@ module.exports = grammar({
         $.dot_index_expression,
         $.slice_expression
       ),
+    
     slice_expression: ($) =>
       seq(
-        field('map', $._prefix_expression),
+        field('entity', $._prefix_expression),
+        field('property', $.slice_expression_property)
+      ),
+    slice_expression_property: ($) =>
+      seq(
         '[',
         field('left', optional($.expression)),
         ':',
         field('right', optional($.expression)),
         ']'
       ),
+    
     bracket_index_expression: ($) =>
       seq(
-        field('map', $._prefix_expression),
+        field('entity', $._prefix_expression),
         '[',
-        field('field', $.expression),
+        field('property', $.expression),
         ']'
       ),
+    
     dot_index_expression: ($) =>
       seq(
-        field('map', $._prefix_expression),
+        field('entity', $._prefix_expression),
         '.',
-        field('field', $.identifier)
+        field('property', $.identifier)
       ),
 
     // Function call expression

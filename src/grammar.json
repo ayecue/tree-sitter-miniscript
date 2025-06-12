@@ -185,8 +185,12 @@
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_assignment"
+          "type": "FIELD",
+          "name": "operator",
+          "content": {
+            "type": "SYMBOL",
+            "name": "assignment_operator"
+          }
         },
         {
           "type": "FIELD",
@@ -255,7 +259,7 @@
         },
         {
           "type": "FIELD",
-          "name": "consequence",
+          "name": "body",
           "content": {
             "type": "CHOICE",
             "members": [
@@ -336,7 +340,7 @@
         },
         {
           "type": "FIELD",
-          "name": "consequence",
+          "name": "body",
           "content": {
             "type": "CHOICE",
             "members": [
@@ -528,7 +532,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "_if_statement_shorthand"
+          "name": "if_statement_shorthand"
         },
         {
           "type": "SYMBOL",
@@ -536,7 +540,7 @@
         }
       ]
     },
-    "_if_statement_shorthand": {
+    "if_statement_shorthand": {
       "type": "CHOICE",
       "members": [
         {
@@ -566,7 +570,7 @@
             },
             {
               "type": "FIELD",
-              "name": "consequence",
+              "name": "body",
               "content": {
                 "type": "SYMBOL",
                 "name": "_if_consequence"
@@ -601,7 +605,7 @@
             },
             {
               "type": "FIELD",
-              "name": "consequence",
+              "name": "body",
               "content": {
                 "type": "SYMBOL",
                 "name": "_if_consequence"
@@ -616,7 +620,7 @@
             },
             {
               "type": "FIELD",
-              "name": "consequence",
+              "name": "body",
               "content": {
                 "type": "SYMBOL",
                 "name": "_if_consequence"
@@ -1278,12 +1282,25 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "map",
+          "name": "entity",
           "content": {
             "type": "SYMBOL",
             "name": "_prefix_expression"
           }
         },
+        {
+          "type": "FIELD",
+          "name": "property",
+          "content": {
+            "type": "SYMBOL",
+            "name": "slice_expression_property"
+          }
+        }
+      ]
+    },
+    "slice_expression_property": {
+      "type": "SEQ",
+      "members": [
         {
           "type": "STRING",
           "value": "["
@@ -1335,7 +1352,7 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "map",
+          "name": "entity",
           "content": {
             "type": "SYMBOL",
             "name": "_prefix_expression"
@@ -1347,7 +1364,7 @@
         },
         {
           "type": "FIELD",
-          "name": "field",
+          "name": "property",
           "content": {
             "type": "SYMBOL",
             "name": "expression"
@@ -1364,7 +1381,7 @@
       "members": [
         {
           "type": "FIELD",
-          "name": "map",
+          "name": "entity",
           "content": {
             "type": "SYMBOL",
             "name": "_prefix_expression"
@@ -1376,7 +1393,7 @@
         },
         {
           "type": "FIELD",
-          "name": "field",
+          "name": "property",
           "content": {
             "type": "SYMBOL",
             "name": "identifier"
@@ -2184,7 +2201,7 @@
     },
     {
       "type": "SYMBOL",
-      "name": "_assignment"
+      "name": "assignment_operator"
     },
     {
       "type": "SYMBOL",
