@@ -583,26 +583,6 @@
         "required": true,
         "types": [
           {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "list_constructor",
-            "named": true
-          },
-          {
-            "type": "literal",
-            "named": true
-          },
-          {
-            "type": "map_constructor",
-            "named": true
-          },
-          {
-            "type": "parenthesized_expression",
-            "named": true
-          },
-          {
             "type": "variable",
             "named": true
           }

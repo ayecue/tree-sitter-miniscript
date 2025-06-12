@@ -145,12 +145,14 @@ module.exports = grammar({
       ),
 
     function_statement_call: ($) =>
-      choice(
-        seq(
-          field('name', $._prefix_expression_without_function_call),
-          field('arguments', $._statement_arguments)
-        ),
-        field('name', $._prefix_expression_without_function_call)
+      prec.left(2,
+        choice(
+          seq(
+            field('name', $.variable),
+            field('arguments', $._statement_arguments)
+          ),
+          field('name', $.variable)
+        )
       ),
     _statement_arguments: ($) =>
       choice(
@@ -300,12 +302,6 @@ module.exports = grammar({
 
     // Used for member expressions and function calls
     _prefix_expression: ($) =>
-      prec(2, choice(
-        $._prefix_expression_without_function_call,
-        $.function_call,
-      )),
-    
-    _prefix_expression_without_function_call: ($) =>
       prec(1, choice(
         $.variable,
         $.function_call,
@@ -313,6 +309,7 @@ module.exports = grammar({
         $.literal,
         $.map_constructor,
         $.list_constructor,
+        $.function_call,
       )),
 
     // Includes variables, member expressions, and index expressions

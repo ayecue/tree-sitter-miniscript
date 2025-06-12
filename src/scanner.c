@@ -4,7 +4,7 @@ enum TokenType
 {
   COMMAND,
   ASSIGNMENT,
-  EOF,
+  END_OF_FILE,
 };
 
 static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
@@ -34,8 +34,24 @@ static inline bool is_assignment(TSLexer *lexer)
   return lexer->lookahead == '=';
 }
 
+static inline bool is_valid_command(TSLexer *lexer)
+{
+  switch (lexer->lookahead)
+  {
+  case '+':
+  case '-':
+  case '*':
+  case '/':
+  case '%':
+    return lexer->lookahead == '-';
+  default:
+    break;
+  }
+  return true;
+}
+
 static bool scan(TSLexer *lexer, const bool *valid_symbols) {
-  if (valid_symbols[COMMAND] || valid_symbols[ASSIGNMENT] || valid_symbols[EOF])
+  if (valid_symbols[COMMAND] || valid_symbols[ASSIGNMENT] || valid_symbols[END_OF_FILE])
   {
     bool has_leading_whitespace = lexer->lookahead == ' ';
 
@@ -43,15 +59,15 @@ static bool scan(TSLexer *lexer, const bool *valid_symbols) {
 
     if (lexer->eof(lexer))
     {
-      if (valid_symbols[EOF])
+      if (valid_symbols[END_OF_FILE])
       {
-        lexer->result_symbol = EOF;
+        lexer->result_symbol = END_OF_FILE;
         return true;
       }
       return false;
     }
 
-    if (has_leading_whitespace && !is_assignment(lexer) && valid_symbols[COMMAND])
+    if (has_leading_whitespace && is_valid_command(lexer) && !is_assignment(lexer) && valid_symbols[COMMAND])
     {
       lexer->result_symbol = COMMAND;
       return true;

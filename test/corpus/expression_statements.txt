@@ -1,0 +1,139 @@
+=====
+Expression statements with binary operations
+=====
+
+1 + 2
+[] + []
+{} + {}
+"test" + "foo"
+
+---
+
+(chunk
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (literal
+          (number)))
+      right: (expression
+        (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (list_constructor))
+      right: (expression
+        (list_constructor))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (map_constructor))
+      right: (expression
+        (map_constructor))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (literal
+          (string
+            content: (string_content))))
+      right: (expression
+        (literal
+          (string
+            content: (string_content)))))))
+
+=====
+Expression statement or Function call statement that is the question
+=====
+
+print *2
+print*2
+print -2
+print-2
+print +2
+print+2
+print /2
+print/2
+print %2
+print%2
+
+---
+
+(chunk
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number)))))
+  (function_statement_call
+    name: (variable
+      (identifier))
+    arguments: (expression
+      (literal
+        (number))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number)))))
+  (expression_statement
+    (binary_expression
+      left: (expression
+        (variable
+          (identifier)))
+      right: (expression
+        (literal
+          (number))))))

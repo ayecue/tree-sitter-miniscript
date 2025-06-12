@@ -451,38 +451,42 @@
       ]
     },
     "function_statement_call": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "name",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_prefix_expression_without_function_call"
+      "type": "PREC_LEFT",
+      "value": 2,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "FIELD",
+                "name": "name",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "variable"
+                }
+              },
+              {
+                "type": "FIELD",
+                "name": "arguments",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "_statement_arguments"
+                }
               }
-            },
-            {
-              "type": "FIELD",
-              "name": "arguments",
-              "content": {
-                "type": "SYMBOL",
-                "name": "_statement_arguments"
-              }
+            ]
+          },
+          {
+            "type": "FIELD",
+            "name": "name",
+            "content": {
+              "type": "SYMBOL",
+              "name": "variable"
             }
-          ]
-        },
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_prefix_expression_without_function_call"
           }
-        }
-      ]
+        ]
+      }
     },
     "_statement_arguments": {
       "type": "CHOICE",
@@ -1208,23 +1212,6 @@
     },
     "_prefix_expression": {
       "type": "PREC",
-      "value": 2,
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "_prefix_expression_without_function_call"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "function_call"
-          }
-        ]
-      }
-    },
-    "_prefix_expression_without_function_call": {
-      "type": "PREC",
       "value": 1,
       "content": {
         "type": "CHOICE",
@@ -1252,6 +1239,10 @@
           {
             "type": "SYMBOL",
             "name": "list_constructor"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "function_call"
           }
         ]
       }
