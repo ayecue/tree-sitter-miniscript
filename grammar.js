@@ -52,7 +52,7 @@ module.exports = grammar({
       choice(
         $._control_flow_statement_shorthand,
         $._control_flow_statement,
-        $.expression_statement,
+        $._control_flow_expression,
         $._eos
       ),
     
@@ -195,16 +195,18 @@ module.exports = grammar({
       ),
     
     // Control flow statement expression
-    expression_statement: ($) =>
+    _control_flow_expression: ($) =>
       seq(
-        choice(
-          $.literal,
-          $.map_constructor,
-          $.list_constructor,
-          $.binary_expression,
-          $.unary_expression
-        ),
+        $.expression_statement,
         $._end_of_statement
+      ),
+    expression_statement: ($) =>
+      choice(
+        $.literal,
+        $.map_constructor,
+        $.list_constructor,
+        $.binary_expression,
+        $.unary_expression
       ),
 
     // Expressions

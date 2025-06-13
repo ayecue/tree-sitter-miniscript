@@ -30,7 +30,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "expression_statement"
+          "name": "_control_flow_expression"
         },
         {
           "type": "SYMBOL",
@@ -663,37 +663,41 @@
         }
       ]
     },
-    "expression_statement": {
+    "_control_flow_expression": {
       "type": "SEQ",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "literal"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "map_constructor"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "list_constructor"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "binary_expression"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "unary_expression"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "expression_statement"
         },
         {
           "type": "SYMBOL",
           "name": "_end_of_statement"
+        }
+      ]
+    },
+    "expression_statement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "literal"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "map_constructor"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "list_constructor"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "binary_expression"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "unary_expression"
         }
       ]
     },
